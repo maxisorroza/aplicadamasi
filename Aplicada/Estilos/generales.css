@@ -1,0 +1,66 @@
+﻿*, body, html {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'Helvetica', sans-serif;
+    
+}
+
+.contenedorPrincipall {
+
+    min-height: calc(100vh - 80px);
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background: -webkit-linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),url(../fondo4.jpg);
+    background: -o-linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),url(../fondo4.jpg);
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),url(../fondo4.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    padding-top:80px;
+}
+
+.contenedorTitulo{
+
+    background: white;
+    height: auto;
+    padding: 20px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-around;
+    align-items:center;
+}
+
+    .contenedorTitulo .tituloPrincipal {
+        color: #176686 ;
+        font-size: 48px;
+    }
+
+.imagen{
+    width:40%;
+}
+
+.btn1{
+
+    color:white;
+    background: #296bd0;
+    padding:10px;
+    border-radius:8px;   
+}
+
+.btn1:hover{
+
+    background: #1e509c;
+
+}
+
+#form1{
+
+    background : rgba(255,255,255,.9);
+    width: 80%;
+}

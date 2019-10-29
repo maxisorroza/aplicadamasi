@@ -1,0 +1,135 @@
+﻿header {
+
+    width: 100%;
+    height: 80px;
+    background: #296bd0;
+    display: flex;
+    justify-content: space-between;
+    -ms-align-items: center;
+    align-items: center;
+    padding: 0px 20px;
+    z-index: 2;
+}
+
+header .titulo {
+    
+    color: #fff;
+    font-size: 24px;
+    margin: 0;
+}
+
+header .labelImg{
+
+    display:flex;
+    width:auto;
+    align-items:center;
+    justify-content:center;
+}
+
+header .showIconMenu {
+ 
+    width: 30px;
+    height: 26px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(to bottom, white, white 20%, #296bd0 20%, #296bd0 40%, white 40%, white 60%, #296bd0 60%, #296bd0 80%, white 80%, white 100%);
+    margin: 0 20px;
+}
+
+.contenedorNumero1 {
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none; /*leer sobre esta propiedad mas adelante*/
+    z-index: 10;
+}
+
+.contenedorNumero1:before {
+ 
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    opacity: 0;
+    transition: opacity .3s;
+}
+
+.contenedorNumero1--visible {
+    
+    pointer-events: auto; /*leer sobre esta propiedad mas adelante*/
+}
+
+.contenedorNumero1--visible:before {
+    
+    opacity: 1;
+}
+
+.contenedorNumero1 .contenedorNumero2 {
+    
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    height: 100%;
+    background: #fff;
+    transform: translateX(-105%);
+    transition: transform .3s;
+    display: flex;
+    -webkit-flex-direction: column;
+    -moz-flex-direction: column;
+    -ms-flex-direction: column;
+    -o-flex-direction: column;
+    flex-direction: column;
+}
+
+.contenedorNumero1--visible .contenedorNumero2 {
+    transform: none;
+}
+
+.contenedorNumero1 .contenedorNumero2 .cabecera {
+    width: 100%;
+    height: 80px;
+    background: #296bd0;
+    display: flex;
+    -ms-align-items: center;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.contenedorNumero1 .contenedorNumero2 .cabecera .hideIconMenu {
+    width: 30px;
+    height: 26px;
+    border: none;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.contenedorNumero1 .contenedorNumero2 .menu {
+    width: 100%;
+    text-align: center;
+    list-style: none;
+    overflow: hidden;
+}
+
+.contenedorNumero1 .contenedorNumero2 .menu .item {
+    overflow: hidden;
+}
+
+.contenedorNumero1 .contenedorNumero2 .menu .item .btn {
+    display: block;
+    padding: 16px 20px;
+    color: #fff;
+    background: #296bd0;
+}
+
+.contenedorNumero1 .contenedorNumero2 .menu .item .btn:hover {
+    background: #1e509c;
+    color: #fff;
+}

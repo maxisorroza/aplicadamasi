@@ -1,0 +1,386 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="aplicadaBDModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="cliente">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="dni" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="telefono" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="email" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="empleado">
+    <Key>
+      <PropertyRef Name="id_empleado" />
+    </Key>
+    <Property Name="id_empleado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombreyapellido" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="dni" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="direccion" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="correo" Type="varchar" MaxLength="50" />
+    <Property Name="telefono" Type="varchar" MaxLength="50" />
+    <Property Name="id_tipo" Type="int" />
+    <Property Name="contraseña" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="disponibilidad" Type="int" />
+  </EntityType>
+  <EntityType Name="marca">
+    <Key>
+      <PropertyRef Name="id_marca" />
+    </Key>
+    <Property Name="id_marca" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="modelo">
+    <Key>
+      <PropertyRef Name="id_modelo" />
+    </Key>
+    <Property Name="id_modelo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_marca" Type="int" Nullable="false" />
+    <Property Name="nombre" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="orden">
+    <Key>
+      <PropertyRef Name="id_orden" />
+    </Key>
+    <Property Name="id_orden" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_vehiculo" Type="int" />
+    <Property Name="mpago" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="ordenempleado">
+    <Key>
+      <PropertyRef Name="id_ordenemple" />
+    </Key>
+    <Property Name="id_ordenemple" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_empleado" Type="int" />
+    <Property Name="id_orden" Type="int" />
+  </EntityType>
+  <EntityType Name="ordenestado">
+    <Key>
+      <PropertyRef Name="id_estado" />
+    </Key>
+    <Property Name="id_estado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_orden" Type="int" Nullable="false" />
+    <Property Name="estado" Type="int" Nullable="false" />
+    <Property Name="fecha" Type="date" Nullable="false" />
+    <Property Name="fecha_espera" Type="date" />
+    <Property Name="fecha_taller" Type="date" />
+    <Property Name="fecha_fintaller" Type="date" />
+    <Property Name="fecha_cobrado" Type="date" />
+    <Property Name="fecha_entregado" Type="date" />
+  </EntityType>
+  <EntityType Name="ordenservicio">
+    <Key>
+      <PropertyRef Name="id_ordenservicio" />
+    </Key>
+    <Property Name="id_ordenservicio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_orden" Type="int" Nullable="false" />
+    <Property Name="id_servicio" Type="int" Nullable="false" />
+    <Property Name="cantidad" Type="int" />
+  </EntityType>
+  <EntityType Name="servicio">
+    <Key>
+      <PropertyRef Name="id_servicios" />
+    </Key>
+    <Property Name="id_servicios" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="detalle" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="precio" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="id_modelo" Type="int" Nullable="false" />
+    <Property Name="id_tipo" Type="int" />
+  </EntityType>
+  <EntityType Name="serviciostock">
+    <Key>
+      <PropertyRef Name="id_serviciostock" />
+    </Key>
+    <Property Name="id_serviciostock" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_servicio" Type="int" Nullable="false" />
+    <Property Name="id_stock" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="stock">
+    <Key>
+      <PropertyRef Name="id_stock" />
+    </Key>
+    <Property Name="id_stock" Type="int" Nullable="false" />
+    <Property Name="detalle" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="precio" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="minimo" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="cantidad" Type="varchar" MaxLength="50" />
+    <Property Name="codigo" Type="varchar" MaxLength="50" />
+    <Property Name="marca" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="tipo">
+    <Key>
+      <PropertyRef Name="id_tipo" />
+    </Key>
+    <Property Name="id_tipo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="detalle" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tiposervicio">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="tipodeservicio" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="vehiculo">
+    <Key>
+      <PropertyRef Name="id_vehiculo" />
+    </Key>
+    <Property Name="id_vehiculo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="patente" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="id_modelo" Type="int" Nullable="false" />
+    <Property Name="id_cliente" Type="int" />
+    <Property Name="annio" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK_empleado_tipo">
+    <End Role="tipo" Type="Self.tipo" Multiplicity="0..1" />
+    <End Role="empleado" Type="Self.empleado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tipo">
+        <PropertyRef Name="id_tipo" />
+      </Principal>
+      <Dependent Role="empleado">
+        <PropertyRef Name="id_tipo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_modelo_marca">
+    <End Role="marca" Type="Self.marca" Multiplicity="1" />
+    <End Role="modelo" Type="Self.modelo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="marca">
+        <PropertyRef Name="id_marca" />
+      </Principal>
+      <Dependent Role="modelo">
+        <PropertyRef Name="id_marca" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_orden_vehiculo">
+    <End Role="vehiculo" Type="Self.vehiculo" Multiplicity="0..1" />
+    <End Role="orden" Type="Self.orden" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="vehiculo">
+        <PropertyRef Name="id_vehiculo" />
+      </Principal>
+      <Dependent Role="orden">
+        <PropertyRef Name="id_vehiculo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ordenempleado_empleado">
+    <End Role="empleado" Type="Self.empleado" Multiplicity="0..1" />
+    <End Role="ordenempleado" Type="Self.ordenempleado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="empleado">
+        <PropertyRef Name="id_empleado" />
+      </Principal>
+      <Dependent Role="ordenempleado">
+        <PropertyRef Name="id_empleado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ordenempleado_orden">
+    <End Role="orden" Type="Self.orden" Multiplicity="0..1" />
+    <End Role="ordenempleado" Type="Self.ordenempleado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="orden">
+        <PropertyRef Name="id_orden" />
+      </Principal>
+      <Dependent Role="ordenempleado">
+        <PropertyRef Name="id_orden" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ordenestado_orden">
+    <End Role="orden" Type="Self.orden" Multiplicity="1" />
+    <End Role="ordenestado" Type="Self.ordenestado" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="orden">
+        <PropertyRef Name="id_orden" />
+      </Principal>
+      <Dependent Role="ordenestado">
+        <PropertyRef Name="id_orden" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ordenservicio_orden">
+    <End Role="orden" Type="Self.orden" Multiplicity="1" />
+    <End Role="ordenservicio" Type="Self.ordenservicio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="orden">
+        <PropertyRef Name="id_orden" />
+      </Principal>
+      <Dependent Role="ordenservicio">
+        <PropertyRef Name="id_orden" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ordenservicio_servicio">
+    <End Role="servicio" Type="Self.servicio" Multiplicity="1" />
+    <End Role="ordenservicio" Type="Self.ordenservicio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="servicio">
+        <PropertyRef Name="id_servicios" />
+      </Principal>
+      <Dependent Role="ordenservicio">
+        <PropertyRef Name="id_servicio" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_servicio_modelo">
+    <End Role="modelo" Type="Self.modelo" Multiplicity="1" />
+    <End Role="servicio" Type="Self.servicio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="modelo">
+        <PropertyRef Name="id_modelo" />
+      </Principal>
+      <Dependent Role="servicio">
+        <PropertyRef Name="id_modelo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_servicio_tiposervicio">
+    <End Role="tiposervicio" Type="Self.tiposervicio" Multiplicity="0..1" />
+    <End Role="servicio" Type="Self.servicio" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tiposervicio">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="servicio">
+        <PropertyRef Name="id_tipo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_serviciostock_servicio">
+    <End Role="servicio" Type="Self.servicio" Multiplicity="1" />
+    <End Role="serviciostock" Type="Self.serviciostock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="servicio">
+        <PropertyRef Name="id_servicios" />
+      </Principal>
+      <Dependent Role="serviciostock">
+        <PropertyRef Name="id_servicio" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_serviciostock_stock">
+    <End Role="stock" Type="Self.stock" Multiplicity="1" />
+    <End Role="serviciostock" Type="Self.serviciostock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="stock">
+        <PropertyRef Name="id_stock" />
+      </Principal>
+      <Dependent Role="serviciostock">
+        <PropertyRef Name="id_stock" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_vehiculo_cliente">
+    <End Role="cliente" Type="Self.cliente" Multiplicity="0..1" />
+    <End Role="vehiculo" Type="Self.vehiculo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cliente">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="vehiculo">
+        <PropertyRef Name="id_cliente" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_vehiculo_modelo">
+    <End Role="modelo" Type="Self.modelo" Multiplicity="1" />
+    <End Role="vehiculo" Type="Self.vehiculo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="modelo">
+        <PropertyRef Name="id_modelo" />
+      </Principal>
+      <Dependent Role="vehiculo">
+        <PropertyRef Name="id_modelo" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="aplicadaBDModelStoreContainer">
+    <EntitySet Name="cliente" EntityType="Self.cliente" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="empleado" EntityType="Self.empleado" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="marca" EntityType="Self.marca" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="modelo" EntityType="Self.modelo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="orden" EntityType="Self.orden" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ordenempleado" EntityType="Self.ordenempleado" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ordenestado" EntityType="Self.ordenestado" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ordenservicio" EntityType="Self.ordenservicio" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="servicio" EntityType="Self.servicio" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="serviciostock" EntityType="Self.serviciostock" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="stock" EntityType="Self.stock" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tipo" EntityType="Self.tipo" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tiposervicio" EntityType="Self.tiposervicio" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="vehiculo" EntityType="Self.vehiculo" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_empleado_tipo" Association="Self.FK_empleado_tipo">
+      <End Role="tipo" EntitySet="tipo" />
+      <End Role="empleado" EntitySet="empleado" />
+    </AssociationSet>
+    <AssociationSet Name="FK_modelo_marca" Association="Self.FK_modelo_marca">
+      <End Role="marca" EntitySet="marca" />
+      <End Role="modelo" EntitySet="modelo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_orden_vehiculo" Association="Self.FK_orden_vehiculo">
+      <End Role="vehiculo" EntitySet="vehiculo" />
+      <End Role="orden" EntitySet="orden" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ordenempleado_empleado" Association="Self.FK_ordenempleado_empleado">
+      <End Role="empleado" EntitySet="empleado" />
+      <End Role="ordenempleado" EntitySet="ordenempleado" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ordenempleado_orden" Association="Self.FK_ordenempleado_orden">
+      <End Role="orden" EntitySet="orden" />
+      <End Role="ordenempleado" EntitySet="ordenempleado" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ordenestado_orden" Association="Self.FK_ordenestado_orden">
+      <End Role="orden" EntitySet="orden" />
+      <End Role="ordenestado" EntitySet="ordenestado" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ordenservicio_orden" Association="Self.FK_ordenservicio_orden">
+      <End Role="orden" EntitySet="orden" />
+      <End Role="ordenservicio" EntitySet="ordenservicio" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ordenservicio_servicio" Association="Self.FK_ordenservicio_servicio">
+      <End Role="servicio" EntitySet="servicio" />
+      <End Role="ordenservicio" EntitySet="ordenservicio" />
+    </AssociationSet>
+    <AssociationSet Name="FK_servicio_modelo" Association="Self.FK_servicio_modelo">
+      <End Role="modelo" EntitySet="modelo" />
+      <End Role="servicio" EntitySet="servicio" />
+    </AssociationSet>
+    <AssociationSet Name="FK_servicio_tiposervicio" Association="Self.FK_servicio_tiposervicio">
+      <End Role="tiposervicio" EntitySet="tiposervicio" />
+      <End Role="servicio" EntitySet="servicio" />
+    </AssociationSet>
+    <AssociationSet Name="FK_serviciostock_servicio" Association="Self.FK_serviciostock_servicio">
+      <End Role="servicio" EntitySet="servicio" />
+      <End Role="serviciostock" EntitySet="serviciostock" />
+    </AssociationSet>
+    <AssociationSet Name="FK_serviciostock_stock" Association="Self.FK_serviciostock_stock">
+      <End Role="stock" EntitySet="stock" />
+      <End Role="serviciostock" EntitySet="serviciostock" />
+    </AssociationSet>
+    <AssociationSet Name="FK_vehiculo_cliente" Association="Self.FK_vehiculo_cliente">
+      <End Role="cliente" EntitySet="cliente" />
+      <End Role="vehiculo" EntitySet="vehiculo" />
+    </AssociationSet>
+    <AssociationSet Name="FK_vehiculo_modelo" Association="Self.FK_vehiculo_modelo">
+      <End Role="modelo" EntitySet="modelo" />
+      <End Role="vehiculo" EntitySet="vehiculo" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,90 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="Aplicada.Site1" %>
+
+<!DOCTYPE html>
+
+<html>
+ <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+
+    <link href="Estilos/Caja.css" rel="stylesheet" />
+    <link href="Estilos/DetalleTaller.css" rel="stylesheet" />
+    <link href="Estilos/generales.css" rel="stylesheet" />
+    <link href="Estilos/header.css" rel="stylesheet" />
+    <link href="Estilos/login.css" rel="stylesheet" />
+    <link href="Estilos/NuevoDetalle.css" rel="stylesheet" />
+    <link href="Estilos/Taller.css" rel="stylesheet" />
+    
+</head>
+<body>
+
+    <header>
+        <p class="titulo">SORROZA'S SERVICE</p>
+
+        <div class="labelImg">
+
+            <div><asp:Label ID="Label1" runat="server" Text="Label"></asp:Label></div>
+		    <button id="iconMenu1" class="showIconMenu"></button>
+
+        </div>
+
+	</header>
+
+	<aside class="contenedorNumero1">
+
+		<nav class="contenedorNumero2">
+		
+			<div class="cabecera">
+		
+				<button id="iconMenu2" class="hideIconMenu">X</button>
+		
+			</div>
+		
+			<div class="menu">
+                <ul>
+				    <li class="item">
+                        <a runat="server" href="~/" class="btn">Inicio</a>
+				    </li>
+                    
+                    <li class="item">
+                        <a href="NuevoDetalle.aspx" class="btn" runat="server" id="btnAltadetalle" Visible="false">Nuevo Detalle</a>
+                    </li>
+                    
+                    <li class="item">
+                        <a href="DetalleTaller.aspx" class="btn" runat="server" id="btnDetalleTaller" Visible="false">Detalle Taller</a>
+                    </li>
+                    
+                    <li class="item">
+                        <a href="Caja.aspx" class="btn" runat="server" id="btnCaja" Visible="false">Caja</a>
+                    </li>
+
+                    <li class="item">
+                        <a href="Taller.aspx" class="btn" runat="server" id="btnTaller" Visible="false">Taller</a>
+                    </li>
+
+                    <li class="item">
+                        <a href="CargaDetalle.aspx" class="btn" runat="server" id="btnCargardetalle" Visible="false">Cargar Detalle</a>
+                    </li>
+
+                    <li class="item">
+                        <a href="Login.aspx" class="btn" runat="server" id="btnLogin" Visible="false">Log in</a>
+                    </li>
+
+                    <li class="item">
+                        <a href="Login.aspx" class="btn" runat="server" visible="false" id="btnLogout" onserverclick="btnLogout_ServerClick">Log out</a> 
+                    </li>
+
+                </ul>
+			</div>
+
+		</nav>
+
+	</aside>
+
+    <div class="contenedorPrincipall">
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+    </div>
+    <script src="JS/JavaScript.js"></script>
+</body>
+</html>
