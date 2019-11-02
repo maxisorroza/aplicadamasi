@@ -1,66 +1,130 @@
-﻿*, body, html {
+﻿@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+*, body, html {
     margin: 0;
     padding: 0;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     text-decoration: none;
-    font-family: 'Helvetica', sans-serif;
-    
+    font-family: 'Roboto', sans-serif;
 }
 
-.contenedorPrincipall {
-
+.arriba {
     min-height: calc(100vh - 80px);
-    display: flex;
-    justify-content: center;
     width: 100%;
-    background: -webkit-linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),url(../fondo4.jpg);
-    background: -o-linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),url(../fondo4.jpg);
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),url(../fondo4.jpg);
+    background: -webkit-linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),url(../fondo.jpg);
+    background: -o-linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),url(../fondo.jpg);
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),url(../fondo.jpg);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    padding-top:80px;
+    position: relative;
 }
 
-.contenedorTitulo{
-
-    background: white;
-    height: auto;
-    padding: 20px;
-    display:flex;
-    flex-direction:column;
-    justify-content:space-around;
-    align-items:center;
-}
-
-    .contenedorTitulo .tituloPrincipal {
-        color: #176686 ;
-        font-size: 48px;
+    .arriba .titulo {
+        font-size: 80px;
+        color: #fff;
+        position: absolute;
+        top: 30%;
+        left: 20%;
     }
 
-.imagen{
-    width:40%;
+    .arriba .parrafo {
+        font-size: 18px;
+        color: #fff;
+        position: absolute;
+        top: 55%;
+        left: 20%;
+        width: 700px;
+    }
+
+.medio {
+    padding: 100px 0;
+    width: 100%;
+    background: #f2f2f2;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
-.btn1{
+    .medio h2 {
+        font-size: 48px;
+        text-align: center;
+        padding-bottom: 80px;
+    }
 
-    color:white;
-    background: #296bd0;
-    padding:10px;
-    border-radius:8px;   
+    .medio .services {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+        .medio .services .item {
+            display: -webkit-flex;
+            display: -moz-flex;
+            display: -ms-flex;
+            display: -o-flex;
+            display: flex;
+            -ms-align-items: center;
+            align-items: center;
+            justify-content: center;
+            -webkit-flex-direction: column;
+            -moz-flex-direction: column;
+            -ms-flex-direction: column;
+            -o-flex-direction: column;
+            flex-direction: column;
+        }
+
+            .medio .services .item img {
+                width: 20%;
+            }
+
+            .medio .services .item p {
+                font-size: 18px;
+                padding-top: 10px;
+            }
+
+.abajo {
+    min-height: 70vh;
+    width: 100%;
+    background: -webkit-linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),url(../img/fondo2.jpg);
+    background: -o-linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),url(../img/fondo2.jpg);
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),url(../img/fondo2.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    -ms-align-items: center;
+    align-items: center;
+    justify-content: center;
 }
 
-.btn1:hover{
+    .abajo h2 {
+        font-size: 80px;
+        color: #fff;
+    }
 
-    background: #1e509c;
-
+footer {
+    height: 40vh;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    -ms-align-items: center;
+    align-items: center;
+    justify-content: center;
+    background: #f2f2f2;
 }
 
-#form1{
-
-    background : rgba(255,255,255,.9);
-    width: 80%;
-}
+    footer p {
+        font-size: 24px;
+        color: #000;
+    }

@@ -16,6 +16,7 @@
 
 .FormDetalle {
     display: inline-block !important;
+    width: 100%;
 }
 
 .contenedor1 {
