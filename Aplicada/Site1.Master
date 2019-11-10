@@ -55,7 +55,7 @@
 				    </li>
                     
                     <li class="item">
-                        <a href="NuevoDetalle.aspx" class="btn" runat="server" id="btnAltadetalle" Visible="false">Nuevo Detalle</a>
+                        <a href="NuevoDetalle.aspx" class="btn" runat="server" id="btnAltadetalle" Visible="false">Nuevo Presupuesto</a>
                     </li>
                     
                     <li class="item">
@@ -71,7 +71,7 @@
                     </li>
 
                     <li class="item">
-                        <a href="CargaDetalle.aspx" class="btn" runat="server" id="btnCargardetalle" Visible="false">Cargar Detalle</a>
+                        <a href="CargaDetalle.aspx" class="btn" runat="server" id="btnCargardetalle" Visible="false">Cargar Presupuesto</a>
                     </li>
 
                     <li class="item">
@@ -80,6 +80,14 @@
 
                     <li class="item">
                         <a href="Login.aspx" class="btn" runat="server" visible="false" id="btnLogout" onserverclick="btnLogout_ServerClick">Log out</a> 
+                    </li>
+
+                     <li class="item">
+                        <a href="Entregado.aspx" class="btn" runat="server" visible="false" id="btnEntregado">Entregado</a> 
+                    </li>
+
+                     <li class="item">
+                        <a href="Reportes.aspx" class="btn" runat="server" visible="false" id="btnReportes">Reportes</a> 
                     </li>
 
                 </ul>

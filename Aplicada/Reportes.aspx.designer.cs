@@ -10,114 +10,150 @@
 namespace Aplicada {
     
     
-    public partial class Site1 {
+    public partial class Reportes {
         
         /// <summary>
-        /// Control head.
+        /// Control form1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder head;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
-        /// Control Label1.
+        /// Control txtinput.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtinput;
         
         /// <summary>
-        /// Control btnAltadetalle.
+        /// Control LST.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor btnAltadetalle;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor LST;
         
         /// <summary>
-        /// Control btnDetalleTaller.
+        /// Control LSM.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor btnDetalleTaller;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor LSM;
         
         /// <summary>
-        /// Control btnCaja.
+        /// Control LSP.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor btnCaja;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor LSP;
         
         /// <summary>
-        /// Control btnTaller.
+        /// Control DropMetododePago.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor btnTaller;
+        protected global::System.Web.UI.WebControls.DropDownList DropMetododePago;
         
         /// <summary>
-        /// Control btnCargardetalle.
+        /// Control PTP.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor btnCargardetalle;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor PTP;
         
         /// <summary>
-        /// Control btnLogin.
+        /// Control txtdni.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor btnLogin;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText txtdni;
         
         /// <summary>
-        /// Control btnLogout.
+        /// Control txtfechainicio.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor btnLogout;
+        protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl txtfechainicio;
         
         /// <summary>
-        /// Control btnEntregado.
+        /// Control txtfechafin.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor btnEntregado;
+        protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl txtfechafin;
         
         /// <summary>
-        /// Control btnReportes.
+        /// Control PP.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor btnReportes;
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor PP;
         
         /// <summary>
-        /// Control ContentPlaceHolder1.
+        /// Control DropTipodeEmpleados.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
+        protected global::System.Web.UI.WebControls.DropDownList DropTipodeEmpleados;
+        
+        /// <summary>
+        /// Control tipodeempelados.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.SqlDataSource tipodeempelados;
+        
+        /// <summary>
+        /// Control FechaInicios.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl FechaInicios;
+        
+        /// <summary>
+        /// Control FechaFinale.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl FechaFinale;
+        
+        /// <summary>
+        /// Control RPE.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor RPE;
     }
 }

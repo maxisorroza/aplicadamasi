@@ -2,7 +2,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <form id="form1" runat="server" class="FormDetalle">
+   <form id="form1" runat="server" class="FormDetalle">
 
         <div class="StockError" id="StockError" runat="server" visible="false">
 
@@ -29,6 +29,7 @@
             </div>
 
             <div class="contenedor1">
+
                 <div class="contenedorServicios">
            
                     <div class="divaux">
@@ -79,9 +80,15 @@
                     </asp:GridView>
 
                     </div>
-                    <asp:Label ID="lblpreciototal" runat="server" Text="Preciototal ">
-                <asp:Label ID="lblprecio" runat="server" Text="0" Visible="true"></asp:Label></asp:Label>
-                </div>	
+                      
+                   
+                    <asp:Label ID="lblpreciototal" runat="server" Text="Precio Total: ">
+                        
+                        <asp:Label ID="lblprecio" runat="server" Text="0" Visible="false"></asp:Label>
+
+                    </asp:Label>
+                
+                </div>
 
                 <div class="contenedor2">
 			
@@ -89,12 +96,18 @@
 
                         <div class="inputbtn">
 				
-                            <input type="text" runat="server" id="txtpatente" placeholder="Patente" disabled>
+                            <asp:Label ID="Label4" runat="server" Text="Patente: "></asp:Label>
+                            <input type="text" runat="server" id="txtpatente" disabled>
 
                         </div>
-				
-                        <input type="text" runat="server" id="txtmodelo" placeholder="Modelo" disabled visible="true">
+				        
+                        <div class="inputbtn">
+    
+                            <asp:Label ID="Label5" runat="server" Text="Modelo: "></asp:Label>
+                            <input type="text" runat="server" id="txtmodelo" disabled visible="true">
 
+                        </div>
+                                              
                         <div class="drop">   
 
                             <%-- Aqui empieza el drop --%>
@@ -119,25 +132,59 @@
 
                         </div>
 
-                        <input type="text" runat="server" id="txtmarca" placeholder="Marca" disabled visible="true">
-                        <input type="text" runat="server" id="txtaño" placeholder="Año" disabled>
+                        <div class="inputbtn">
+                            
+                            <asp:Label ID="Label6" runat="server" Text="Marca: "></asp:Label>
+                            <input type="text" runat="server" id="txtmarca" disabled visible="true">
+                        
+                        </div>
+                        
+                        <div class="inputbtn">
+                            
+                            <asp:Label ID="Label7" runat="server" Text="Año: "></asp:Label>
+                            <input type="text" runat="server" id="txtaño" disabled>
+
+                        </div>
 
                         <div class="inputbtn">
-
-                            <input type="text" placeholder="Titular Dni" id="txtdni" runat="server" disabled>
+                            
+                            <asp:Label ID="Label8" runat="server" Text="DNI: "></asp:Label>
+                            <input type="text" id="txtdni" runat="server" disabled>
 
                         </div>
 
                     </div>
 
                     <div class="duenio">
-				
-                        <input type="text" placeholder="Apellido" id="txtapellido" runat="server" disabled>
-                        <input type="text" placeholder="Nombre" id="txtnombre" runat="server" disabled>
-				
-                        <input type="text" placeholder="Telefono" id="txttelefono" runat="server" disabled>
-                        <input type="text" placeholder="E-Mail" id="txtemail" runat="server" disabled>
 
+
+                        <div class="inputbtn">
+
+                            <asp:Label ID="Label9" runat="server" Text="Apellido: "></asp:Label>				
+                            <input type="text" id="txtapellido" runat="server" disabled>
+    
+                        </div>
+                        
+                        <div class="inputbtn">
+                            
+                            <asp:Label ID="Label10" runat="server" Text="Nombre: "></asp:Label>				
+                            <input type="text" id="txtnombre" runat="server" disabled>
+                        
+                        </div>
+                        
+                        <div class="inputbtn">
+                        
+                            <asp:Label ID="Label11" runat="server" Text="Telefono: "></asp:Label>				
+                            <input type="text" id="txttelefono" runat="server" disabled>
+                        
+                        </div>
+
+                        <div class="inputbtn">
+    
+                            <asp:Label ID="Label12" runat="server" Text="E-Mail: "></asp:Label>				
+                            <input type="text" id="txtemail" runat="server" disabled>
+                        
+                        </div>
                     </div>
 
                 </div>

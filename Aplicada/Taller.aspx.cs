@@ -43,7 +43,7 @@ namespace Aplicada
             if (!IsPostBack)
             {
 
-                if (LogEmpleado.id_tipo != 1)
+                if (LogEmpleado.id_tipo != 6)
                 {
                     Server.Transfer("Default.aspx");
                 }

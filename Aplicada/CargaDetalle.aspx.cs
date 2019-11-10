@@ -56,11 +56,19 @@ namespace Aplicada
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (LogEmpleado.id_tipo != 2)
+            if (!IsPostBack)
             {
-                Server.Transfer("Default.aspx");
+                if (LogEmpleado.id_tipo != 7)
+                {
+                    Server.Transfer("Default.aspx");
+                }
+
+
+
+
             }
         }
+
         protected void BtnBuscar(object sender, EventArgs e)
         {
             Buscadores bus = new Buscadores();
@@ -76,7 +84,7 @@ namespace Aplicada
 
                 if (oOrden != null)
                 {
-                    if ((Oordenestado == null) || (Oordenestado.estado == null) || (Oordenestado.estado == 0) || (Oordenestado.estado == 4))
+                    if ((Oordenestado == null) || (Oordenestado.estado == null) || (Oordenestado.estado == 0) || (Oordenestado.estado == 5))
                     {
 
                         //Validar orden estado 2 o superior aca? si?
@@ -108,7 +116,6 @@ namespace Aplicada
                         OrdenActual = oOrden;
                         CargarGrid(oOrden);
                         PDFESTADOCERO();
-                        
                     }
                     else
                     {
@@ -144,8 +151,8 @@ namespace Aplicada
                 dtable.Rows.Add(oservicio.detalle, oservicio.precio, total, o.cantidad);
                 preciototal = preciototal + int.Parse(total);
             }
-            lblprecio.Text = preciototal.ToString(); 
-
+            //lblprecio.Text = preciototal.ToString(); <--- poner label para el total
+            lblprecio.Text = preciototal.ToString();
             Lservicios = ObtenerServicios(Lidservidcios);
             List<serviciostock> Lserstock = Lserviciostock(Lservicios);
             List<stock> Nstock = Lstockuso(Lserstock);
@@ -263,7 +270,7 @@ namespace Aplicada
             Buscadores bus = new Buscadores();
             var doc = new iTextSharp.text.Document(PageSize.A4.Rotate());
             string path = Server.MapPath("~");
-            PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(path + "/Presupuesto.pdf", FileMode.Create));
+            PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(path + "/Presupuesto01.pdf", FileMode.Create));
 
             doc.Open();
 
@@ -283,7 +290,7 @@ namespace Aplicada
             d.Font.Size = 12;
             doc.Add(d);
 
-            //////////////////////////////////////////desde aca yo me mando las cagadas////////////////////////////////////////////////
+            
 
             Paragraph fe = new Paragraph(DateTime.Now.ToString("dd-MM-yyyy"));
             fe.Alignment = 2;
@@ -296,7 +303,7 @@ namespace Aplicada
             doc.Add(op);
             doc.Add(Chunk.NEWLINE);
 
-            /////////////////////////////////////////hasta aca llego mi cagada/////////////////////////////////////////////////////////
+            
 
             vehiculo ovehiculo = bus.buscarvehiculo(txtpatente.Value);
             cliente ocliente = bus.ocliente(ovehiculo);
@@ -311,7 +318,10 @@ namespace Aplicada
             doc.Add(Chunk.NEWLINE);
 
 
+            if (GridView2.Rows.Count != 0)
+            {
 
+            
             PdfPTable pdfTable = new PdfPTable(GridView2.HeaderRow.Cells.Count);
 
             foreach (TableCell headerCell in GridView2.HeaderRow.Cells)
@@ -330,6 +340,7 @@ namespace Aplicada
                 }
             }
             doc.Add(pdfTable);
+            }
             Paragraph tt = new Paragraph("Total: $" + lblprecio.Text);
             tt.Alignment = 2;
             tt.Font.Size = 12;
@@ -337,7 +348,7 @@ namespace Aplicada
             doc.Add(Chunk.NEWLINE);
 
             doc.Close();
-            Page.ClientScript.RegisterStartupScript(this.GetType(), "OpenWindow", "window.open('Presupuesto.pdf','_newtab');", true);
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "OpenWindow", "window.open('Presupuesto01.pdf','_newtab');", true);
             //Response.Redirect("Presupuesto.pdf");
 
         }

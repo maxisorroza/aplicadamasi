@@ -1,0 +1,67 @@
+﻿.contenedor .contenidoprincipal {
+    height: auto;
+    width: 350px;
+    background: #f2f2f2;
+    margin: 80px auto;
+    display: flex;
+    float: left;
+    flex-direction: column;
+    align-items: center;
+    -webkit-box-shadow: 0 15px 20px -17px black;
+    -moz-box-shadow: 0 15px 20px -17px black;
+    box-shadow: 0 15px 20px -17px black;
+    margin-right: 10px;
+}
+
+.contenedor h2 {
+    font-size: 24px;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.contenedor .contenidoprincipal h3 {
+    font-size: 20px;
+    padding: 40px 0;
+}
+
+.contenedor .contenidoprincipal .btnReport {
+    text-decoration: none;
+    color: #2C383F;
+    background: none;
+    border: 2px solid #AF7F5A;
+    border-radius: 50px;
+    padding: 10px 30px;
+    margin-bottom: 40px;
+}
+
+    .contenedor .contenidoprincipal .btnReport:hover {
+        transition: .5s;
+        background: #AF7F5A;
+        color: #fff;
+    }
+
+.contenedor.contenidoprincipal a {
+    margin-bottom: 20px;
+    text-decoration: underline;
+}
+
+.contenedor .contenidoprincipal input {
+    width: 260px;
+    padding: 10px 0;
+    margin-bottom: 40px;
+    border: none;
+    background: none;
+    color: #AF7F5A;
+    font-size: 18px;
+    border-bottom: 3px solid #AF7F5A;
+}
+
+.contenedor .contenidoprincipal .modelito {
+    width: 60%;
+    margin-bottom: 40px;
+    font-size: 18px;
+    padding: 10px 8px 10px 14px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}

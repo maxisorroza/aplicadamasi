@@ -121,14 +121,17 @@ namespace Aplicada
             }
         }
 
+
         protected void Page_Load(object sender, EventArgs e)
         {
+
 
 
             if (!IsPostBack)
             {
                 dtable.Clear();
-                if (LogEmpleado.id_tipo != 2)
+                LSAC.Clear();
+                if (LogEmpleado.id_tipo != 7)
                 {
 
                     Server.Transfer("Default.aspx");
@@ -136,7 +139,7 @@ namespace Aplicada
                 }
                 if (dtable.Columns.Count == 0)
                 {
-                    dtable.Columns.AddRange(new DataColumn[4] { new DataColumn("Detalle"), new DataColumn("Precio"), new DataColumn("Total"), new DataColumn("Cantidad") });
+                    dtable.Columns.AddRange(new DataColumn[4] { new DataColumn("Detalle"), new DataColumn("Precio"), new DataColumn("Cantidad"), new DataColumn("Total") });
                 }
             }
         }
@@ -162,7 +165,7 @@ namespace Aplicada
                     {
                         ordenestado = bus.buscarvestadoorden(orden.id_orden);
                     }
-                    if ((orden == null) || (ordenestado.estado == null) || (ordenestado.estado == 4))
+                    if ((orden == null) || (ordenestado.estado == null) || (ordenestado.estado == 5))
                     {
 
                         NoAuto.Visible = false;
@@ -171,10 +174,14 @@ namespace Aplicada
                         VerGrid(oservicio);
                         A1.Visible = true;
                         btnServicios.Visible = true;
-                        DropServicio.Visible = true;
+                        DropServicio.Enabled = true;
                         txtcantidad.Visible = true;
+                        DropTipoServicio.Enabled = true;
                         lblpreciototal.Visible = true;
                         btnfinalizar.Visible = true;
+                        txtprecioporcantidad.Visible = true;
+                        Calculaelprimero();
+                        txtcantidad.Enabled = true;
 
 
                     }
@@ -296,13 +303,17 @@ namespace Aplicada
 
             }
             EstadoOriginal();
-            DropServicio.Visible = true;
-            DropTipoServicio.Visible = true;
+            btnAgregarcliente.Visible = false;
+            DropTipoServicio.Enabled = true;
+            DropServicio.Enabled = true;
+            txtprecioporcantidad.Visible = true;
+            txtcantidad.Enabled = true;
 
             btnServicios.Visible = true;
             txtcantidad.Visible = true;
             lblpreciototal.Visible = true;
             btnfinalizar.Visible = true;
+            Calculaelprimero();
 
         }
 
@@ -374,38 +385,38 @@ namespace Aplicada
 
         protected void Avanzar(object sender, EventArgs e)
         {
-            if ((txtpatente.Value != "") && (txtdni.Value != "") && (StockError.Visible != true))
+            if ((GridView2.Rows.Count > 0)&&(LSAC.Count>0))
             {
-
-                Buscadores bus = new Buscadores();
-                cliente ocliente = bus.oclientedni(txtdni.Value);
-                vehiculo ovehiculo = bus.buscarvehiculo(txtpatente.Value);
-                cliente oclientes = bus.ocliente(ovehiculo);
-
-                if ((ovehiculo.id_cliente != null) && (ocliente.nombre != null) && (ovehiculo.id_cliente == ocliente.id) && (LSAC.Count <= 5) && (LSAC.Count >= 1))
+                if ((txtpatente.Value != "") && (txtdni.Value != "") && (StockError.Visible != true))
                 {
-                    GridView2.Columns[4].Visible = false;
-                    CargarOrden();
-                    PDFESTADOCERO();
-                  
-                    btnpasartaller.Visible = true;
-                    btnServicios.Visible = false;
-                    btnfinalizar.Visible = false;
 
+                    Buscadores bus = new Buscadores();
+                    cliente ocliente = bus.oclientedni(txtdni.Value);
+                    vehiculo ovehiculo = bus.buscarvehiculo(txtpatente.Value);
+                    cliente oclientes = bus.ocliente(ovehiculo);
+
+                    if ((ovehiculo != null) && (ovehiculo.id_cliente != null) && (ocliente != null) && (ovehiculo.id_cliente == ocliente.id) && (LSAC.Count <= 5) && (LSAC.Count >= 1))
+                    {
+                        CargarOrden();
+                        PDFESTADOCERO();
+                        btnpasartaller.Visible = true;
+                        btnAgregarcliente.Visible = false;
+                        btnGuardar.Visible = false;
+                        btnServicios.Visible = false;
+                        btnfinalizar.Visible = false;
+                        GridView2.Columns[4].Visible = false;
+                    }
+                    else
+                    {
+                        Server.Transfer("NuevoDetalle.aspx");
+                    }
 
                 }
                 else
                 {
                     Server.Transfer("NuevoDetalle.aspx");
-
                 }
-
             }
-            else
-            {
-                Server.Transfer("NuevoDetalle.aspx");
-            }
-
         }
 
         private void CargarOrden()
@@ -625,8 +636,8 @@ namespace Aplicada
                 Lservi = Lse;
                 string detalle = oservicio.detalle;
                 string precio = oservicio.precio;
-                string total = (double.Parse(oservicio.precio) * double.Parse(txtcantidad.Value)).ToString();
-                string cantidad = txtcantidad.Value;
+                string total = (double.Parse(oservicio.precio) * double.Parse(txtcantidad.Text)).ToString();
+                string cantidad = txtcantidad.Text;
                 Cantidad oCantidad = new Cantidad(oservicio.id_servicios, int.Parse(cantidad));
                 Lcantidades.Add(oCantidad);
 
@@ -635,7 +646,7 @@ namespace Aplicada
 
 
                 LSAC.Add(oservicio);
-                dtable.Rows.Add(detalle, precio, total, cantidad);
+                dtable.Rows.Add(detalle, precio, cantidad, total);
                 lblprecio.Visible = true;
                 int a = int.Parse(lblprecio.Text) + int.Parse(total);
                 lblprecio.Text = a.ToString();
@@ -661,6 +672,7 @@ namespace Aplicada
                 GridView2.DataSource = dtable;
                 GridView2.DataBind();
                 VerGrid(oservicio);
+                Calculaelprimero();
 
             }
             else
@@ -673,6 +685,7 @@ namespace Aplicada
 
         protected void Cancelar(object sender, EventArgs e)
         {
+            
             Server.Transfer("NuevoDetalle.aspx");
 
         }
@@ -737,9 +750,7 @@ namespace Aplicada
                     DBF.SaveChanges();
                     ordenestado oestado = (from q in DBF.ordenestado where q.id_orden == OrdenActual.id_orden select q).First();
                     oestado.estado = 1;
-                    oestado.fecha_espera = System.DateTime.Now;
-                    
-                    //////////////////////////////////////////////////////////
+                    oestado.fecha_espera = System.DateTime.Now;   //////////////////////////////////////////////////////////
                     DBF.SaveChanges();
                     empleado oempleado = (from q in DBF.empleado where q.id_empleado == ordenemple.id_empleado select q).First();
                     oempleado.disponibilidad = 1;
@@ -770,124 +781,165 @@ namespace Aplicada
             string total = GridView2.SelectedRow.Cells[2].Text;
             int w = GridView2.SelectedRow.RowIndex;
             dtable.Rows.RemoveAt(w);
+            int contador = 0;
+            servicio prueba = Encontrarservicio(contador, w);
             GridView2.DataSource = dtable;
             GridView2.DataBind();
-            List<servicio> Lservicios;
-            using (aplicadaBDEntities DBF = new aplicadaBDEntities())
+
+
+
+            Buscadores bus = new Buscadores();
+            string a = txtpatente.Value;
+
+            servicio oservicio = new servicio();
+
+            int z = int.Parse(lblprecio.Text) - int.Parse(total);
+            lblprecio.Text = z.ToString();
+            oservicio = LSAC.Find(ser => ser.id_servicios == prueba.id_servicios);
+            LSAC.Remove(oservicio);
+            List<serviciostock> Lserstock = Lserviciostock(oservicio.id_servicios.ToString());
+            List<stock> Nstock = Lstockuso(Lserstock);
+            List<stock> Copia = Lstock;
+            foreach (stock ostock in Nstock)
             {
-                IQueryable<servicio> lista = (from q in DBF.servicio select q);
-                Lservicios = lista.ToList();
-                Buscadores bus = new Buscadores();
-                string a = txtpatente.Value;
-                vehiculo objvehiculo = bus.buscarvehiculo(a);
-                modelo objmodelo = bus.buscarmodelo(objvehiculo);
-                Lservicios = Lservicios.FindAll(ser => ser.id_modelo == objmodelo.id_modelo);
-                servicio oservicio = new servicio();
-                oservicio = Lservicios.Find(ser => ser.detalle == Detalle);
-                int z = int.Parse(lblprecio.Text) - int.Parse(total);
-                lblprecio.Text = z.ToString();
-                oservicio = LSAC.Find(ser => ser.id_servicios == oservicio.id_servicios);
-                LSAC.Remove(oservicio);
-                List<serviciostock> Lserstock = Lserviciostock(oservicio.id_servicios.ToString());
-                List<stock> Nstock = Lstockuso(Lserstock);
-                List<stock> Copia = Lstock;
-                foreach (stock ostock in Nstock)
-                {
-                    stock oostock = Lstock.Find(x => x.id_stock == ostock.id_stock);
-                    Lstock.Remove(oostock);
-                }
-
-
-
-
-                oservicio.precio = "1";
-
-                VerGrid(oservicio);
-                 
+                stock oostock = Lstock.Find(x => x.id_stock == ostock.id_stock);
+                Lstock.Remove(oostock);
             }
+
+
+
+
+            oservicio.precio = "1";
+
+            VerGrid(oservicio);
+            //Queda remover la lista de stock 
+
         }
+
+        private servicio Encontrarservicio(int a, int w)
+        {
+            servicio ooservicio = new servicio();
+            foreach (servicio oservicio in LSAC)
+            {
+                if (a == w)
+                {
+                    ooservicio = oservicio;
+                }
+                a = a + 1;
+            }
+            return ooservicio;
+        }
+
         public void PDFESTADOCERO()
         {
             Buscadores bus = new Buscadores();
-            var doc = new iTextSharp.text.Document(PageSize.A4.Rotate());
-            string path = Server.MapPath("~");
-            PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(path + "/Presupuesto.pdf", FileMode.Create));
-
-            doc.Open();
-
-            doc.AddTitle("Presupuesto");
-
-            Paragraph p = new Paragraph("Presupuesto");
-            p.Alignment = 1;
-            p.Font.Size = 24;
-            doc.Add(p);
-            PdfContentByte cb = writer.DirectContent;
-            cb.MoveTo(100, 0);
-            cb.LineTo(0, 0);
-            cb.Stroke();
-            doc.Add(Chunk.NEWLINE);
-            Paragraph d = new Paragraph("Orden N°: " + OrdenActual.id_orden);
-            d.Alignment = 2;
-            d.Font.Size = 12;
-            doc.Add(d);
-
-            //////////////////////////////////////////desde aca yo me mando las cagadas////////////////////////////////////////////////
-
-            Paragraph fe = new Paragraph(DateTime.Now.ToString("dd-MM-yyyy"));
-            fe.Alignment = 2;
-            fe.Font.Size = 12;
-            doc.Add(fe);
-
-            Paragraph op = new Paragraph("Operario: " + LogEmpleado.nombreyapellido);
-            op.Alignment = 2;
-            op.Font.Size = 12;
-            doc.Add(op);
-            doc.Add(Chunk.NEWLINE);
-
-            /////////////////////////////////////////hasta aca llego mi cagada/////////////////////////////////////////////////////////
-
             vehiculo ovehiculo = bus.buscarvehiculo(txtpatente.Value);
             cliente ocliente = bus.ocliente(ovehiculo);
             modelo omarca = bus.buscarmodelo(ovehiculo);
             marca omodelo = bus.buscarmarca(omarca);
+            iTextSharp.text.Rectangle rec = new iTextSharp.text.Rectangle(PageSize.A4);
+            var doc = new iTextSharp.text.Document(rec);
 
-            Paragraph Cliente = new Paragraph("Apellido y Nombre: " + ocliente.nombre + "                 DNI: " + ocliente.dni + "            Telefono: " + ocliente.telefono + "        Correo Electronico: " + ocliente.email);
-            doc.Add(Cliente);
-            doc.Add(Chunk.NEWLINE);
-            Paragraph Vehiculo = new Paragraph("Patente: " + ovehiculo.patente + "          Modelo: " + omodelo.nombre + "       Marca: " + omarca.nombre);
-            doc.Add(Vehiculo);
-            doc.Add(Chunk.NEWLINE);
+            rec.BackgroundColor = new BaseColor(System.Drawing.Color.Olive);
+            doc.SetPageSize(iTextSharp.text.PageSize.A4);
+            string path = Server.MapPath("~");
+            PdfWriter.GetInstance(doc, new FileStream(path + "/Presupuesto00.pdf", FileMode.Create));
+            doc.Open();
+            //Cabecera
+            BaseFont bfntHead = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            iTextSharp.text.Font fntHead = new iTextSharp.text.Font(bfntHead, 16, 1, iTextSharp.text.BaseColor.BLUE.Darker());
+            Paragraph prgHeading = new Paragraph();
+            prgHeading.Alignment = Element.ALIGN_LEFT;
+            prgHeading.Add(new Chunk("Taller de Reparaciones - Presupuesto".ToUpper(), fntHead));
+            doc.Add(prgHeading);
+            //Generado By
+            Paragraph prgGeneratedBY = new Paragraph();
+            BaseFont btnAuthor = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            iTextSharp.text.Font fntAuthor = new iTextSharp.text.Font(btnAuthor, 8, 2, iTextSharp.text.BaseColor.BLACK);
+            prgGeneratedBY.Alignment = Element.ALIGN_RIGHT;
+            prgGeneratedBY.Add(new Chunk("Generado por: " + LogEmpleado.nombreyapellido, fntAuthor));  //Agregar LOG Empleado
+            prgGeneratedBY.Add(new Chunk("\nFecha Generado valido por 5 dias : " + DateTime.Now.ToShortDateString(), fntAuthor));
+            prgGeneratedBY.Add(new Chunk("\nN° de Orden : " + OrdenActual.id_orden, fntAuthor));
+            doc.Add(prgGeneratedBY);
+            //La f Linea  
+            Paragraph p = new Paragraph(new Chunk(new iTextSharp.text.pdf.draw.LineSeparator(0.0F, 100.0F, iTextSharp.text.BaseColor.BLACK, Element.ALIGN_LEFT, 1)));
+            doc.Add(p);
+            //Espacio
+            doc.Add(new Chunk("\n", fntHead));
+            //Datos
+            Paragraph Datos = new Paragraph();
+            BaseFont bfntDatos = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            iTextSharp.text.Font fntDatos = new iTextSharp.text.Font(bfntDatos, 12, 0, iTextSharp.text.BaseColor.BLACK);
+            Datos.Alignment = Element.ALIGN_CENTER;
+            Datos.Add(new Chunk("Apellido y Nombre: " + ocliente.nombre + "   DNI: " + ocliente.dni + "   Telefono: " + ocliente.telefono + "\nCorreo Electronico: " + ocliente.email, fntDatos));
 
+            Datos.Add(new Chunk("\nPatente: " + ovehiculo.patente + "   Modelo:" + omodelo.nombre + "  Marca:  " + omarca.nombre, fntDatos));
+            doc.Add(Datos);
+            //Espacio
+            doc.Add(new Chunk("\n", fntHead));
+            //Tabla
+            PdfPTable table = new PdfPTable(dtable.Columns.Count);
 
-
-            PdfPTable pdfTable = new PdfPTable(GridView2.HeaderRow.Cells.Count);
-
-            foreach (TableCell headerCell in GridView2.HeaderRow.Cells)
+            for (int i = 0; i < dtable.Columns.Count; i++)
             {
-                PdfPCell pdfCell = new PdfPCell(new Phrase(headerCell.Text));
-                pdfTable.AddCell(pdfCell);
-                
+                string cellText = Server.HtmlDecode(dtable.Columns[i].ColumnName);
+                PdfPCell cell = new PdfPCell();
+                cell.Phrase = new Phrase(cellText, new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 10, 1, new BaseColor(System.Drawing.ColorTranslator.FromHtml("#000000"))));
+                cell.BackgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#C8C8C8"));
+                cell.HorizontalAlignment = Element.ALIGN_CENTER;
+                cell.PaddingBottom = 5;
+                table.AddCell(cell);
             }
-
-            foreach (GridViewRow gridViewRow in GridView2.Rows)
+            //Agregando Campos a la tabla
+            for (int i = 0; i < dtable.Rows.Count; i++)
             {
-
-                foreach (TableCell tableCell in gridViewRow.Cells)
+                for (int j = 0; j < dtable.Columns.Count; j++)
                 {
-                    PdfPCell pdfCell = new PdfPCell(new Phrase(tableCell.Text));
-                    pdfTable.AddCell(pdfCell);
+                    table.AddCell(dtable.Rows[i][j].ToString());
                 }
             }
-            doc.Add(pdfTable);
-            Paragraph tt = new Paragraph("Total: $" + lblprecio.Text);
-            tt.Alignment = 2;
-            tt.Font.Size = 12;
-            doc.Add(tt);
-            doc.Add(Chunk.NEWLINE);
+            doc.Add(table);
+            //Espacio
+            doc.Add(new Chunk("\n", fntHead));
+            //Datos2.0
+            Paragraph Datos2 = new Paragraph();
+            Datos2.Alignment = Element.ALIGN_RIGHT;
+            Datos2.Add(new Chunk("\nPrecio Total=  $" + lblprecio.Text, fntDatos));
+            doc.Add(Datos2);
+            Paragraph Datos3 = new Paragraph();
+            Datos3.Alignment = Element.ALIGN_CENTER;
+            iTextSharp.text.Font fntDatos3 = new iTextSharp.text.Font(bfntDatos, 12, 1, iTextSharp.text.BaseColor.BLACK);
+            Datos3.Add(new Chunk("\nPresupuesto NO VALIDO como Factura", fntDatos3));
+            doc.Add(Datos3);
 
             doc.Close();
-            Page.ClientScript.RegisterStartupScript(this.GetType(), "OpenWindow", "window.open('Presupuesto.pdf','_newtab');", true);
-            //Response.Redirect("Presupuesto.pdf");
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "OpenWindow", "window.open('Presupuesto00.pdf','_newtab');", true);
+        }
+
+
+
+
+        protected void CambioElValordeldrop(object sender, EventArgs e)
+        {
+            Calculaelprimero();
+        }
+
+        protected void Eventotest(object sender, EventArgs e)
+        {
+            Calculaelprimero();
+        }
+        public void Calculaelprimero()
+        {
+            if (txtcantidad.Text == "")
+            {
+                txtcantidad.Text = "1";
+            }
+            Buscadores bus = new Buscadores();
+            if (DropServicio.SelectedIndex != -1)
+            {
+                servicio oservicio = bus.buscarservicio(int.Parse(DropServicio.SelectedItem.Value));
+                txtprecioporcantidad.Value = (int.Parse(oservicio.precio) * int.Parse(txtcantidad.Text)).ToString();
+            }
 
         }
 

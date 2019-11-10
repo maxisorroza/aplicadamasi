@@ -12,6 +12,9 @@ namespace Aplicada
             cliente ocliente = new cliente();
             if (ovehiculo.id_cliente != null)
             {
+
+
+
                 using (aplicadaBDEntities DBF = new aplicadaBDEntities())
                 {
 
@@ -278,6 +281,188 @@ namespace Aplicada
                 {
                     vehiculo oorden = (from q in DBF.vehiculo where q.id_vehiculo == x.id_vehiculo select q).FirstOrDefault();
                     x.vehiculo = oorden;
+                }
+
+            }
+            return objmarca;
+        }
+
+        public List<stock> listastock()
+        {
+            List<stock> Lstock = new List<stock>();
+            using (aplicadaBDEntities DBF = new aplicadaBDEntities())
+            {
+                IQueryable<stock> lista = (from q in DBF.stock select q);
+                Lstock = lista.ToList();
+
+            }
+            return Lstock;
+
+        }
+        public List<stock> listastockmarca(string marca)
+        {
+            List<stock> Lstock = new List<stock>();
+            using (aplicadaBDEntities DBF = new aplicadaBDEntities())
+            {
+                IQueryable<stock> lista = (from q in DBF.stock select q);
+                Lstock = lista.ToList();
+                Lstock = Lstock.FindAll(x => x.marca == marca);
+
+            }
+            return Lstock;
+
+        }
+
+        public List<stock> listastockproducto(string producto)
+        {
+            List<stock> Lstock = new List<stock>();
+            using (aplicadaBDEntities DBF = new aplicadaBDEntities())
+            {
+                IQueryable<stock> lista = (from q in DBF.stock select q);
+                Lstock = lista.ToList();
+                Lstock = Lstock.FindAll(x => x.detalle == producto);
+
+            }
+            return Lstock;
+
+        }
+
+        public List<orden> listasordenmp(string metodop)
+        {
+            List<orden> Lstock = new List<orden>();
+            using (aplicadaBDEntities DBF = new aplicadaBDEntities())
+            {
+                IQueryable<orden> lista = (from q in DBF.orden select q);
+                Lstock = lista.ToList();
+                Lstock = Lstock.FindAll(x => x.mpago == metodop);
+
+            }
+            return Lstock;
+
+        }
+        public List<orden> ordenponervyc(List<orden> Lorden)
+        {
+            foreach (orden oorden in Lorden)
+            {
+                int v2 = oorden.id_vehiculo ?? default(int);
+                oorden.vehiculo = buscarvehiculoid(v2);
+                oorden.vehiculo.cliente = ocliente(oorden.vehiculo);
+
+
+
+            }
+            return Lorden;
+        }
+
+        public List<serviciostock> Lserviciostock(string id)
+        {
+            Buscadores bus = new Buscadores();
+            List<serviciostock> Lserviciostocks = bus.Lstockservi();
+            List<serviciostock> NLserviciostock = new List<serviciostock>();
+            NLserviciostock = Lserviciostocks.FindAll(s => s.id_servicio == int.Parse(id));
+
+            return NLserviciostock;
+
+        }
+        public List<stock> Lstockuso(String id)
+        {
+            Buscadores bus = new Buscadores();
+            List<stock> Lstock = bus.Lstock();
+            List<stock> stockactivo = new List<stock>();
+            List<serviciostock> LSS = Lserviciostock(id);
+            foreach (stock Stock in Lstock)
+            {
+                foreach (serviciostock Servistock in LSS)
+                {
+                    if (Stock.id_stock == Servistock.id_stock)
+                    {
+                        stockactivo.Add(Stock);
+
+                    }
+
+                }
+            }
+
+            return stockactivo;
+        }
+
+        public List<vehiculo> buscarclientevehiculo(int idcliente)
+        {
+            List<vehiculo> objmarca = new List<vehiculo>();
+            using (aplicadaBDEntities DBF = new aplicadaBDEntities())
+            {
+
+
+                objmarca = (from q in DBF.vehiculo where q.id_cliente == idcliente select q).ToList();
+
+
+
+            }
+            return objmarca;
+        }
+
+        public List<orden> buscarListaordenporvehiculo(int id)
+        {
+            List<orden> objmarca = new List<orden>();
+            using (aplicadaBDEntities DBF = new aplicadaBDEntities())
+            {
+
+                objmarca = (from q in DBF.orden orderby q.id_orden descending where q.id_vehiculo == id select q).ToList();
+
+
+            }
+            return objmarca;
+        }
+
+        public List<servicio> ObtenerServicios(List<ordenservicio> Lidservidcios)
+        {
+            List<servicio> Lservicio = new List<servicio>();
+            Buscadores bus = new Buscadores();
+            foreach (ordenservicio idservicios in Lidservidcios)
+            {
+                servicio oservicio = bus.buscarservicio(idservicios.id_servicio);
+                Lservicio.Add(oservicio);
+            }
+            return Lservicio;
+
+
+        }
+
+        public List<ordenempleado> buscarListaempleadoorden(int id)
+        {
+            List<ordenempleado> objmarca = new List<ordenempleado>();
+            using (aplicadaBDEntities DBF = new aplicadaBDEntities())
+            {
+
+                objmarca = (from q in DBF.ordenempleado orderby q.id_ordenemple descending where q.id_empleado == id select q).ToList();
+
+
+            }
+            return objmarca;
+        }
+        public List<ordenempleado> buscarListOrdenEstadoporempleado(int n)
+        {
+            List<ordenempleado> objmarca = new List<ordenempleado>();
+            using (aplicadaBDEntities DBF = new aplicadaBDEntities())
+            {
+
+                objmarca = (from q in DBF.ordenempleado where q.id_empleado == n select q).ToList();
+
+
+            }
+            return objmarca;
+        }
+
+        public List<orden> buscarordexempleado(List<ordenempleado> Lorde)
+        {
+            List<orden> objmarca = new List<orden>();
+            using (aplicadaBDEntities DBF = new aplicadaBDEntities())
+            {
+                foreach (ordenempleado x in Lorde)
+                {
+                    orden oorden = (from q in DBF.orden where q.id_orden == x.id_orden select q).FirstOrDefault();
+                    x.orden = oorden;
+                    objmarca.Add(oorden);
                 }
 
             }

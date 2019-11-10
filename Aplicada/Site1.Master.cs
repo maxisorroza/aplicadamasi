@@ -39,6 +39,7 @@ namespace Aplicada
                 HabilitarTaller();
                 HabilitarOperario();
                 HabilitarCaja();
+                habilitarReportes();
 
             }
             else
@@ -54,7 +55,7 @@ namespace Aplicada
 
         private void HabilitarCaja()
         {
-            if (LogEmpleado.id_tipo == 3)
+            if (LogEmpleado.id_tipo == 8)
         {
            btnCaja.Visible = true;
 
@@ -63,22 +64,32 @@ namespace Aplicada
 
         private void HabilitarOperario()
         {
-            if (LogEmpleado.id_tipo == 2)
+            if (LogEmpleado.id_tipo == 7)
             {
             btnAltadetalle.Visible = true;
             btnCargardetalle.Visible = true;
+                btnEntregado.Visible = true;
 
              }
         }
 
         private void HabilitarTaller()
         {
-            if (LogEmpleado.id_tipo == 1)
+            if (LogEmpleado.id_tipo == 6)
             {
             btnTaller.Visible = true;
 
             }
            }
+        private void habilitarReportes()
+        {
+            if (LogEmpleado.id_tipo == 10)
+            {
+                btnReportes.Visible = true;
+            }
+
+        }
+
         protected void btnLogout_ServerClick(object sender, EventArgs e)
         {
             LogEmpleado = null;

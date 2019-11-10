@@ -53,7 +53,7 @@ namespace Aplicada
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (LogEmpleado.id_tipo != 2)
+            if (LogEmpleado.id_tipo != 7)
             {
                 Server.Transfer("Default.aspx");
             }
@@ -78,8 +78,7 @@ namespace Aplicada
                     DBF.SaveChanges();
                     ordenestado oestado = (from q in DBF.ordenestado where q.id_orden == OrdenActual.id_orden select q).First();
                     oestado.estado = 1;
-                    oestado.fecha_espera = System.DateTime.Now;
-                     //////////////////////////////////////////////////////////
+                    oestado.fecha_espera = System.DateTime.Now;   //////////////////////////////////////////////////////////
                     DBF.SaveChanges();
                     empleado oempleado = (from q in DBF.empleado where q.id_empleado == ordenemple.id_empleado select q).First();
                     oempleado.disponibilidad = 1;

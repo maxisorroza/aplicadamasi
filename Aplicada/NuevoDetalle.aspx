@@ -3,7 +3,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-     <form id="form1" runat="server" class="FormDetalle">
+      <form id="form1" runat="server" class="FormDetalle">
 
         <div class="StockError" id="StockError" runat="server" visible="false">
 
@@ -27,15 +27,25 @@
 		<div class="contenedorServicios">
            
             <div class="divaux drop">
-                <asp:DropDownList ID="DropTipoServicio" CssClass="modelito" runat="server" DataSourceID="Típoservicios" DataTextField="tipodeservicio" DataValueField="id" AutoPostBack="True" OnSelectedIndexChanged="DropTipoServicio_SelectedIndexChanged"></asp:DropDownList>
-               <asp:EntityDataSource ID="Típoservicios" runat="server" ConnectionString="name=aplicadaBDEntities" DefaultContainerName="aplicadaBDEntities" EnableFlattening="False" EntitySetName="tiposervicio"></asp:EntityDataSource>
+                <asp:DropDownList ID="DropTipoServicio" CssClass="modelito" runat="server" DataSourceID="Tiposdeservicios" DataTextField="tipodeservicio" DataValueField="id" AutoPostBack="True" OnSelectedIndexChanged="DropTipoServicio_SelectedIndexChanged" Enabled="False"></asp:DropDownList>
+                <asp:EntityDataSource ID="Tiposdeservicios" runat="server" ConnectionString="name=aplicadaBDEntities" DefaultContainerName="aplicadaBDEntities" EnableFlattening="False" EntitySetName="tiposervicio" EntityTypeFilter="tiposervicio" Select="it.[id], it.[tipodeservicio]"></asp:EntityDataSource>
                 <br />
                 <br />
-                <asp:DropDownList ID="DropServicio" CssClass="modelito" runat="server" Visible="false"></asp:DropDownList>
+                <asp:DropDownList ID="DropServicio" CssClass="modelito" runat="server" Enabled="false" AutoPostBack="true" OnSelectedIndexChanged="CambioElValordeldrop"></asp:DropDownList>
                 <br />
                 <br />
-               <input type="number" runat="server" id="txtcantidad" value="1" visible="false"/>
+
+                <div>
+                    <asp:Label ID="Label4" runat="server" Text="Cantidad: "></asp:Label>
+                   <asp:TextBox ID="txtcantidad" runat="server"  AutoPostBack="true" OnTextChanged="Eventotest" onkeypress="javascript:return solonumeros(event)" CssClass="inputCantidad" Enabled="false" Text="1"></asp:TextBox>
+                </div>
+                 
+                <%--<input type="number" runat="server" id="txtcantidad" value="1" visible="false" onkeypress="Eventotest" onchange="Eventotest"/>--%>
                 <br />
+                <div>
+                    <asp:Label ID="Label5" runat="server" Text="Precio por cantidad: "></asp:Label>
+                    <input type="number" runat="server" id="txtprecioporcantidad" value="0" visible="false" disabled="disabled" class="inputCantidad" />
+                </div>
                 <br />
                 
             </div>
@@ -47,8 +57,8 @@
 
 
             <div class="divaux">
-                <asp:GridView ID="GridView2" CssClass="GridView1" runat="server" AutoGenerateColumns="False" CellPadding="4" ForeColor="#333333" OnSelectedIndexChanged="GridView2_SelectedIndexChanged">
-                    <AlternatingRowStyle BackColor="White" />
+                <asp:GridView ID="GridView2" CssClass="GridView1" runat="server" AutoGenerateColumns="False" CellPadding="4" ForeColor="#333333" OnSelectedIndexChanged="GridView2_SelectedIndexChanged" GridLines="None">
+                    <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
                     <Columns>
                             <asp:BoundField DataField="detalle" HeaderText="Detalle" >
 
@@ -65,43 +75,47 @@
                                 <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
 
                             </asp:BoundField>
-                            <asp:BoundField DataField="total" HeaderText="Total ($)" >
+                        <asp:BoundField DataField="cantidad" HeaderText="Cantidad" >
+                                <FooterStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                                <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                                <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+
+                            </asp:BoundField>   
+                         <asp:BoundField DataField="total" HeaderText="Total ($)" >
                                 <FooterStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                                 <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
                                 <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
 
                             </asp:BoundField>
-                            <asp:BoundField DataField="cantidad" HeaderText="Cantidad" >
-                                <FooterStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                                <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                                <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-
-                            </asp:BoundField>
+                           
 
                         
                         
-                        <asp:CommandField SelectText="Eliminar" ButtonType="Button" ShowSelectButton="true"  />
+                        <asp:CommandField SelectText="Eliminar" ButtonType="Button" ShowSelectButton="true" />
                         
                     </Columns>
-                    <FooterStyle BackColor="#CCCC99" ForeColor="Black" />
-                        <HeaderStyle BackColor="#333333" Font-Bold="True" ForeColor="White" />
-                        <PagerStyle BackColor="White" ForeColor="Black" HorizontalAlign="Right" />
-                        <SelectedRowStyle BackColor="#CC3333" Font-Bold="True" ForeColor="White" />
-                        <SortedAscendingCellStyle BackColor="#F7F7F7" />
-                        <SortedAscendingHeaderStyle BackColor="#4B4B4B" />
-                        <SortedDescendingCellStyle BackColor="#E5E5E5" />
-                        <SortedDescendingHeaderStyle BackColor="#242121" />
+                    <EditRowStyle BackColor="#999999" />
+                    <FooterStyle BackColor="#5D7B9D" ForeColor="White" Font-Bold="True" />
+                        <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                        <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
+                        <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
+                        <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
+                        <SortedAscendingCellStyle BackColor="#E9E7E2" />
+                        <SortedAscendingHeaderStyle BackColor="#506C8C" />
+                        <SortedDescendingCellStyle BackColor="#FFFDF8" />
+                        <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
                     
                
                 </asp:GridView>
 
                 
             </div>
-            <asp:Label ID="lblpreciototal" runat="server" Text="Preciototal ">
-                <asp:Label ID="lblprecio" runat="server" Text="0" Visible="true"></asp:Label>
+            <br />
+            <br />
+            <asp:Label ID="lblpreciototal" runat="server" Text="Precio Total: ">
+                <asp:Label ID="lblprecio" runat="server" Text="0" Visible="false"></asp:Label>
+
             </asp:Label>
-            <br />
-            <br />
             <br />
             <br />
             <a href="#" class="guardarCambios" runat="server" onserverclick="Avanzar" id="btnfinalizar" visible="false">Finalizar Presupuesto</a>
@@ -125,23 +139,17 @@
                     <asp:DropDownList ID="Dmarca" CssClass="modelito" runat="server" DataSourceID="EMarca" DataTextField="nombre" DataValueField="id_marca" AutoPostBack="True" Visible="False"></asp:DropDownList>
                     <asp:EntityDataSource ID="EMarca" runat="server" ConnectionString="name=aplicadaBDEntities" DefaultContainerName="aplicadaBDEntities" EnableFlattening="False" EntitySetName="marca"></asp:EntityDataSource>
 
-
-				
-
-
-
                     <asp:DropDownList ID="Dmodelo" CssClass="modelito" runat="server" DataSourceID="SqlDataSource1" DataTextField="nombre" DataValueField="id_modelo" Visible="False"></asp:DropDownList>
-                    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:aplicadaBDConnectionString %>" SelectCommand="SELECT * FROM [modelo] WHERE ([id_marca] = @id_marca)">
-                    <SelectParameters>
-                        <asp:ControlParameter ControlID="Dmarca" Name="id_marca" PropertyName="SelectedValue" Type="Int32" />
-                    </SelectParameters>
-                </asp:SqlDataSource>
                     <%-- Aqui termina el Drops --%>
                 </div>
 
 
 
-				
+				<asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:aplicadaBDConnectionString %>" SelectCommand="SELECT * FROM [modelo] WHERE ([id_marca] = @id_marca)">
+                    <SelectParameters>
+                        <asp:ControlParameter ControlID="Dmarca" Name="id_marca" PropertyName="SelectedValue" Type="Int32" />
+                    </SelectParameters>
+                </asp:SqlDataSource>
 
 
 
@@ -176,11 +184,11 @@
 		
 		<a href="#" class="guardarCambios" runat="server" onserverclick="Cancelar">Cancelar</a>
 		<asp:DropDownList ID="DropMecanicosDispo" runat="server" DataSourceID="DMecanicos" DataTextField="nombreyapellido" DataValueField="id_empleado" CssClass="select modelitoo" ></asp:DropDownList>
-        <asp:SqlDataSource ID="DMecanicos" runat="server" ConnectionString="<%$ ConnectionStrings:aplicadaBDConnectionString %>" SelectCommand="SELECT [nombreyapellido], [id_empleado], [id_tipo] FROM [empleado] WHERE ([id_tipo] = 1) AND ([disponibilidad] = 0)"></asp:SqlDataSource>
+         <asp:SqlDataSource ID="DMecanicos" runat="server" ConnectionString="<%$ ConnectionStrings:aplicadaBDConnectionString %>" SelectCommand="SELECT [nombreyapellido], [id_empleado], [id_tipo] FROM [empleado] WHERE ([id_tipo] = 6) AND ([disponibilidad] = 0)"></asp:SqlDataSource>
         <a href="#" class="guardarCambios" runat="server"  id="btnpasartaller" visible="false" onserverclick="btnpasarataller_ServerClick">Pasar a taller</a>
 		
 
 	</div>
 
- </form> 
+ </form>   
 </asp:Content>

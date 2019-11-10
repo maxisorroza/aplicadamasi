@@ -2,7 +2,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <form id="form1" runat="server" class="FormDetalle">
+   <form id="form1" runat="server" class="FormDetalle">
     
 
     <div class="contenedorCaja">
@@ -149,6 +149,12 @@
                     <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" CssClass="gridTaller" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="4" ForeColor="Black" GridLines="Horizontal">
 
                         <Columns>
+                            <asp:BoundField DataField="cantidad" HeaderText="Cantidad" >
+                                <FooterStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                                <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+                                <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
+
+                            </asp:BoundField>
 
                             <asp:BoundField DataField="detalle" HeaderText="Detalle" >
 
@@ -171,12 +177,7 @@
                                 <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
 
                             </asp:BoundField>
-                            <asp:BoundField DataField="cantidad" HeaderText="Cantidad" >
-                                <FooterStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                                <HeaderStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-                                <ItemStyle HorizontalAlign="Center" VerticalAlign="Middle" />
-
-                            </asp:BoundField>
+                            
 
                         </Columns>
 
@@ -216,10 +217,19 @@
                 
         <div class="btnTaller">
 				
-				<a href="#">Imprimir</a>
+				<a href="#" runat="server" onserverclick="BtnImporimir">Imprimir</a>
 				<a href="#" runat="server" onserverclick="BtnCobrar">Cobrar</a>
 
 			</div>
 			</div>
+
+
+
+	
+
+			
+
+	
+
 </form>
 </asp:Content>

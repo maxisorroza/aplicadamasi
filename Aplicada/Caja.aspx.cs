@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 
 namespace Aplicada
 {
@@ -50,10 +53,24 @@ namespace Aplicada
                 Session["LaOrden"] = value;
             }
         }
+        public DataTable dt
+        {
+            get
+            {
+                if (Session["dt"] == null)
+                    Session["dt"] = new DataTable();
+                return (DataTable)Session["dt"];
+            }
+            set
+            {
+                Session["dt"] = value;
+            }
+        }
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (LogEmpleado.id_tipo != 3)
+            if (LogEmpleado.id_tipo != 8)
             {
                 Server.Transfer("Default.aspx");
             }
@@ -63,10 +80,7 @@ namespace Aplicada
             List<orden> Lorden = bus.buscarordeestado(Lordenestado);
             List<vehiculo> LVehiculo = bus.buscarordevehiculo(Lorden);
             LOrden = Lorden;
-            //DropDownList1.DataSource = Lorden;
-            //DropDownList1.DataTextField = "id_orden";
-            //DropDownList1.DataValueField = "id_orden";
-            //DropDownList1.DataBind();
+
 
         }
 
@@ -147,26 +161,26 @@ namespace Aplicada
 
         private void MetodosdePago()
         {
-            ListItem i;
-            i = new ListItem("Tarjeta de Credito", "Tarjeta de Credito");
+            System.Web.UI.WebControls.ListItem i;
+            i = new System.Web.UI.WebControls.ListItem("Tarjeta de Credito", "Tarjeta de Credito");
             DropMetododePago.Items.Add(i);
-            i = new ListItem("Tarjeta de Debito", "Tarjeta de Debito");
+            i = new System.Web.UI.WebControls.ListItem("Tarjeta de Debito", "Tarjeta de Debito");
             DropMetododePago.Items.Add(i);
-            i = new ListItem("Efectivo", "Efectivo");
+            i = new System.Web.UI.WebControls.ListItem("Efectivo", "Efectivo");
             DropMetododePago.Items.Add(i);
             divmetodo.Visible = true;
         }
 
         private void CargarGrid(orden oOrden)
         {
-            
+
             MetodosdePago();
             Buscadores bus = new Buscadores();
             List<ordenservicio> Lidservidcios = new List<ordenservicio>();
             Lidservidcios = bus.buscarlistaid(oOrden.id_orden);
             List<servicio> Lservicios = ObtenerServicios(Lidservidcios);
             DataTable dtable = new DataTable();
-            dtable.Columns.AddRange(new DataColumn[4] { new DataColumn("Detalle"), new DataColumn("Precio"), new DataColumn("Total"), new DataColumn("Cantidad") });
+            dtable.Columns.AddRange(new DataColumn[4] { new DataColumn("Cantidad"), new DataColumn("Detalle"), new DataColumn("Precio"), new DataColumn("Total") });
             int preciototal = 0;
             foreach (ordenservicio o in Lidservidcios)
             {
@@ -174,7 +188,7 @@ namespace Aplicada
                 servicio oservicio = Lservicios.Find(x => x.id_servicios == o.id_servicio);
                 int cantidad = o.cantidad ?? default(int);
                 string total = (double.Parse(oservicio.precio) * Convert.ToDouble(cantidad)).ToString();
-                dtable.Rows.Add(oservicio.detalle, oservicio.precio, total, o.cantidad);
+                dtable.Rows.Add(o.cantidad, oservicio.detalle, oservicio.precio, total);
                 preciototal = preciototal + int.Parse(total);
             }
             //foreach (servicio x in Lservicios)
@@ -183,6 +197,7 @@ namespace Aplicada
             //}
             lblprecio.Text = preciototal.ToString();
             //GridView1.DataSource = Lservicios;
+            dt = dtable;
             GridView1.DataSource = dtable;
             GridView1.DataBind();
         }
@@ -225,6 +240,168 @@ namespace Aplicada
 
 
             }
+        }
+
+     
+
+        public void PDFESTADOCERO()
+        {
+
+            Buscadores bus = new Buscadores();
+            var doc = new iTextSharp.text.Document(PageSize.A4);
+            string path = Server.MapPath("~");
+            PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(path + "/Factura.pdf", FileMode.Create));
+
+
+            vehiculo ovehiculo = bus.buscarvehiculoid(Ordenn.id_vehiculo ?? default(int));
+            cliente ocliente = bus.ocliente(ovehiculo);
+            modelo omodelo = bus.buscarmodelo(ovehiculo);
+            marca omarca = bus.buscarmarca(omodelo);
+
+            doc.Open();
+
+            //Cabecera
+            BaseFont bfntHead = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            iTextSharp.text.Font fntHead = new iTextSharp.text.Font(bfntHead, 16, 1, iTextSharp.text.BaseColor.BLUE.Darker());
+            Paragraph prgHeading = new Paragraph();
+            prgHeading.Alignment = 1;
+            prgHeading.Add(new Chunk("Factura".ToUpper(), fntHead));
+            doc.Add(prgHeading);
+            doc.Add(Chunk.NEWLINE);
+
+            //Generado By
+            Paragraph prgGeneratedBY = new Paragraph();
+            BaseFont btnAuthor = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            iTextSharp.text.Font fntAuthor = new iTextSharp.text.Font(btnAuthor, 12, 2, iTextSharp.text.BaseColor.BLACK);
+            prgGeneratedBY.Alignment = Element.ALIGN_RIGHT;
+            prgGeneratedBY.Add(new Chunk("Generado por: " + LogEmpleado.nombreyapellido, fntAuthor));  //Agregar LOG Empleado
+            prgGeneratedBY.Add(new Chunk("\nFecha : " + DateTime.Now.ToShortDateString(), fntAuthor));
+            prgGeneratedBY.Add(new Chunk("\nN° de Orden : " + Ordenn.id_orden, fntAuthor));
+            doc.Add(prgGeneratedBY);
+            doc.Add(Chunk.NEWLINE);
+
+            doc.Add(Chunk.NEWLINE);
+
+            //tablados
+            PdfPTable tabla2 = new PdfPTable(2);
+            tabla2.WidthPercentage = 100;
+            tabla2.SpacingAfter = 20;
+
+            PdfPCell vehiculoTitulo = new PdfPCell(new Phrase("Vehiculo"));
+            vehiculoTitulo.BorderWidth = 0;
+            vehiculoTitulo.BorderWidthRight = 0.75f;
+            vehiculoTitulo.BorderWidthTop = 0.75f;
+            vehiculoTitulo.BorderWidthLeft = 0.75f;
+            vehiculoTitulo.HorizontalAlignment = Element.ALIGN_CENTER;
+            vehiculoTitulo.BackgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#C8C8C8"));
+
+            PdfPCell clienteTitulo = new PdfPCell(new Phrase("Cliente"));
+            clienteTitulo.BorderWidth = 0;
+            clienteTitulo.BorderWidthTop = 0.75f;
+            clienteTitulo.BorderWidthRight = 0.75f;
+            clienteTitulo.HorizontalAlignment = Element.ALIGN_CENTER;
+            clienteTitulo.BackgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#C8C8C8"));
+
+
+
+            PdfPCell patente = new PdfPCell(new Phrase("Patente: " + ovehiculo.patente));
+            patente.BorderWidth = 0;
+            patente.BorderWidthRight = 0.75f;
+            patente.BorderWidthBottom = 0.75f;
+            patente.BorderWidthLeft = 0.75f;
+            patente.BackgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#C8C8C8"));
+
+            PdfPCell marca = new PdfPCell(new Phrase("Marca: " + omarca.nombre));
+            marca.BorderWidth = 0;
+            marca.BorderWidthRight = 0.75f;
+            marca.BorderWidthLeft = 0.75f;
+            marca.BackgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#C8C8C8"));
+
+            PdfPCell modelo = new PdfPCell(new Phrase("Modelo: " + omodelo.nombre));
+            modelo.BorderWidth = 0;
+            modelo.BorderWidthRight = 0.75f;
+            modelo.BorderWidthLeft = 0.75f;
+            modelo.BackgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#C8C8C8"));
+
+            PdfPCell nombre = new PdfPCell(new Phrase("Apellido y Nombre: " + ocliente.nombre));
+            nombre.BorderWidth = 0;
+            nombre.BorderWidthLeft = 0.75f;
+            nombre.BorderWidthBottom = 0.75f;
+            nombre.BorderWidthRight = 0.75f;
+            nombre.BackgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#C8C8C8"));
+
+            PdfPCell dni = new PdfPCell(new Phrase("DNI: " + ocliente.dni));
+            dni.BorderWidth = 0;
+            dni.BorderWidthBottom = 0.75f;
+            dni.BorderWidthRight = 0.75f;
+            dni.BackgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#C8C8C8"));
+
+            tabla2.AddCell(vehiculoTitulo);
+            tabla2.AddCell(clienteTitulo);
+
+            tabla2.AddCell(marca);
+            tabla2.AddCell(modelo);
+            tabla2.AddCell(nombre);
+            tabla2.AddCell(patente);
+            tabla2.AddCell(dni);
+
+            doc.Add(tabla2);
+            dt.Rows.Add("", "", "Total", lblprecio.Text);
+            PdfPTable table = new PdfPTable(dt.Columns.Count);
+
+            for (int i = 0; i < dt.Columns.Count; i++)
+            {
+                string cellText = Server.HtmlDecode(dt.Columns[i].ColumnName);
+                PdfPCell cell = new PdfPCell();
+                cell.Phrase = new Phrase(cellText, new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 10, 1, new BaseColor(System.Drawing.ColorTranslator.FromHtml("#000000"))));
+                cell.BackgroundColor = new BaseColor(System.Drawing.ColorTranslator.FromHtml("#C8C8C8"));
+                cell.HorizontalAlignment = Element.ALIGN_CENTER;
+                cell.VerticalAlignment = Element.ALIGN_CENTER;
+                cell.PaddingBottom = 5;
+
+                table.AddCell(cell);
+            }
+            //Agregando Campos a la tabla
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                for (int j = 0; j < dt.Columns.Count; j++)
+                {
+                    PdfPCell cell = new PdfPCell();
+                    cell.Phrase = new Phrase(dt.Rows[i][j].ToString(), new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 10, 0, new BaseColor(System.Drawing.ColorTranslator.FromHtml("#000000"))));
+
+                    if (j == 1)
+                    {
+                        cell.HorizontalAlignment = Element.ALIGN_LEFT;
+                    }
+                    else
+                    {
+                        cell.HorizontalAlignment = Element.ALIGN_CENTER;
+
+                    }
+                    if (dt.Rows[i][j].ToString() == "Total")
+                    {
+                        cell.Phrase = new Phrase(dt.Rows[i][j].ToString(), new iTextSharp.text.Font(iTextSharp.text.Font.FontFamily.TIMES_ROMAN, 10, 1, new BaseColor(System.Drawing.ColorTranslator.FromHtml("#000000"))));
+
+                    }
+                    table.AddCell(cell);
+                }
+            }
+            table.SetWidths(new float[] { 2, 8, 1, 1 });
+            doc.Add(table);
+            //Espacio
+
+
+            doc.Close();
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "OpenWindow", "window.open('Factura.pdf','_newtab');", true);
+            //Response.Redirect("Presupuesto.pdf");
+
+
+        }
+
+        protected void BtnImporimir(object sender, EventArgs e)
+        {
+            PDFESTADOCERO();
+
         }
     }
 }
